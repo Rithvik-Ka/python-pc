@@ -8,11 +8,25 @@
 #                   Exiting the program.
 ###############################################################################
 
+items = input("Enter indexes and items in the following format:\n'index 1': 'item 1', 'index 2': 'item 2', etc\n-> ")
+split_items = items.split(",") #seperating between commas
+
+iandi = []
+for i in split_items: #removing additoinal spaces
+    iandi.append(i.strip())
+
+mydic = {}
+for i in iandi: #seperating between semicolons
+    mydic[i.split(":")[0].strip()] = i.split(":")[1].strip()
+
+
+""" OLD WAY OF GATHERING ITEMS
 #Asking for the inital items in the list
 mydic = {input("Enter the index for the first item: "): input("Enter the first item: "), 
         input("Enter the index for the second item: "): input("Enter the second item: "), 
         input("Enter the index for the third item: "): input("Enter the third item: "), 
         input("Enter the index for the fourth item: "): input("Enter the fourth item: ")}
+"""
 
 print("\n", "-"*30, "\n")
 while True:
@@ -26,10 +40,10 @@ while True:
         item = "A"
 
         while index == "A" or index == "0": #Making sure the index is not A or 0
-            index = input("Enter the new index(cannot be A or 0): ")
+            index = input("Enter the new index(cannot be A or 0): ").strip()
         
         item = input("Enter the new item: ")
-        mydic[index] = item
+        mydic[index] = item.strip()
         print("\nItem added!\n", "-"*30)
 
     elif choice == "0": #If user selects 0 to end the program
@@ -46,4 +60,3 @@ while True:
             print("\n", "-"*30,"\nItem not in list")
 
     input("Continue:\n" + "-"*30)
-#testing agian...

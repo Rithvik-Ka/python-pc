@@ -7,17 +7,23 @@
 #                   Adding a new item to the list.
 #                   Exiting the program.
 ###############################################################################
+valid_input = False
+while not valid_input:
+    items = input("Enter indexes and items in the following format:\n'index 1': 'number 1', 'index 2': 'number 2', etc\n-> ")
+    split_items = items.split(",") #seperating between commas
 
-items = input("Enter indexes and items in the following format:\n'index 1': 'item 1', 'index 2': 'item 2', etc\n-> ")
-split_items = items.split(",") #seperating between commas
+    iandi = []
+    for i in split_items: #removing additoinal spaces
+        iandi.append(i.strip())
 
-iandi = []
-for i in split_items: #removing additoinal spaces
-    iandi.append(i.strip())
+    valid_input = True
+    mydic = {}
+    for i in iandi: #seperating between semicolons
+        mydic[i.split(":")[0].strip()] = i.split(":")[1].strip()
+        if not (i.split(":")[1].strip()).isnumeric():
+            print("Your item nubmer is not a number!\n" + "-"*30 + "\n")
+            valid_input = False
 
-mydic = {}
-for i in iandi: #seperating between semicolons
-    mydic[i.split(":")[0].strip()] = i.split(":")[1].strip()
 
 
 """ OLD WAY OF GATHERING ITEMS
@@ -31,16 +37,17 @@ mydic = {input("Enter the index for the first item: "): input("Enter the first i
 print("\n", "-"*30, "\n")
 while True:
     #printing the list
+    added_item = ""
     for i in mydic:
         print(i, ":", mydic[i])
+        added_item += i + " : "+ mydic[i]+ "\n"
     
-    choice = input("If you want to add an item, type 'A'\nIf you want to access an item from your dictionary, type the correspondign index \nIf you want to end the program, type '0'\n -> ")
-    if choice == "A": #If users selects A to add a new index and item
-        index = "A"
-        item = "A"
+    choice = input("If you want to add an item, type 'N'\nIf you want to access an item from your dictionary, type the correspondign index \nIf you want to end the program, type '0'\n -> ")
+    if choice == "N": #If users selects N to add a new index and item
+        index = "N"
 
-        while index == "A" or index == "0": #Making sure the index is not A or 0
-            index = input("Enter the new index(cannot be A or 0): ").strip()
+        while index == "N" or index == "0": #Making sure the index is not N or 0
+            index = input("Enter the new index(cannot be N or 0): ").strip()
         
         item = input("Enter the new item: ")
         mydic[index] = item.strip()
@@ -48,6 +55,8 @@ while True:
 
     elif choice == "0": #If user selects 0 to end the program
         print("\n", "-"*30, "\nThank you, Goodbye!")
+        with open("menu_output.txt", "w", encoding="utf-8") as f:
+            f.write(added_item)
         break
 
     else: #If user wants to access an item
